@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(
   session({
     name: 'session',
-    secret: 'our_secret',
+    secret: 'our_secret_xxxxxxx1234567',
     resave: false,
     saveUninitialized: false,
     store: new FileStore({
@@ -35,6 +35,20 @@ app.use(
     }
   })
 )
+
+//flash messages
+app.use(flash())
+
+//public path
+app.use(express.static('public'))
+
+//set session to res
+app.use((req, res, next) => {
+  if(req.session.userid) {
+    res.locals.session = req.session
+  }
+  next()
+})
 
 connect
  .sync()
